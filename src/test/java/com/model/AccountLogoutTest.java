@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
+
 
 public class AccountLogoutTest {
 
@@ -30,12 +30,12 @@ public class AccountLogoutTest {
     @Test
     public void userCanEnterAccountWithAccountButton() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.accountButton.click();
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        sleep(1000);
-        homePage.accountLogoutButton.click();
-        Assert.assertEquals("Войти", homePage.loginButton.getText());
+        loginPage.accountLogoutButton.click();
+        Assert.assertEquals("Войти", loginPage.loginButton.getText());
     }
 
 }

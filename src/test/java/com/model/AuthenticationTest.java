@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class AuthenticationTest {
 
@@ -30,42 +29,45 @@ public class AuthenticationTest {
     @Test
     public void userCanLoginBeginWithConstructorAccountButton() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.constructorAccountButton.click();
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        Assert.assertEquals(homePage.accountUserNameInput.getValue(), data.get("name"));
+        Assert.assertEquals(loginPage.accountUserNameInput.getValue(), data.get("name"));
     }
 
     @Test
     public void userCanLoginBeginWithAccountButton() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.accountButton.click();
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        Assert.assertEquals(homePage.accountUserNameInput.getValue(), data.get("name"));
+        Assert.assertEquals(loginPage.accountUserNameInput.getValue(), data.get("name"));
     }
 
     @Test
     public void userCanLoginBeginWithRegistrationForm() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
+        RegistrationPagesElementsSelenide registrationPage = loginPage.register();
         homePage.accountButton.click();
-        homePage.goToRegistrationPageLink.click();
-        homePage.switchFromRegistrationToLoginPageLink.click();
-        sleep(2000);
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.goToRegistrationPageLink.click();
+        registrationPage.switchFromRegistrationToLoginPageLink.click();
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        Assert.assertEquals(homePage.accountUserNameInput.getValue(), data.get("name"));
+        Assert.assertEquals(loginPage.accountUserNameInput.getValue(), data.get("name"));
     }
 
     @Test
     public void userCanLoginBeginWithPasswordRecoveryForm() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.accountButton.click();
-        homePage.goToPasswordRecoveryPageLink.click();
-        homePage.switchFromPassRecoveryToLoginPageLink.click();
-        sleep(2000);
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.goToPasswordRecoveryPageLink.click();
+        loginPage.switchFromPassRecoveryToLoginPageLink.click();
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        Assert.assertEquals(homePage.accountUserNameInput.getValue(), data.get("name"));
+        Assert.assertEquals(loginPage.accountUserNameInput.getValue(), data.get("name"));
     }
 }

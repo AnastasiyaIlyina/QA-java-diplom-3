@@ -6,12 +6,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.util.Map;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
 
-public class GoToMainPageTest {
+public class SwitchToMainPageTest {
 
     private UserOperations userOperations;
     private Map<String, String> data;
@@ -29,11 +30,13 @@ public class GoToMainPageTest {
 
     @Test
     public void goToMainPageFromAccountWithConstructionMenuButton() {
+        System.setProperty("selenide.browser", "firefox");
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.accountButton.click();
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        sleep(2000);
+        loginPage.accountLogoutButton.shouldBe(visible, Duration.ofSeconds(2));
         homePage.constructorMenuButton.click();
         Assert.assertEquals("Construction menu header is incorrect", "Соберите бургер",homePage.constructorMenuHeader.getText());
     }
@@ -41,12 +44,12 @@ public class GoToMainPageTest {
     @Test
     public void goToMainPageFromAccountWithLogo() {
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
         homePage.accountButton.click();
-        homePage.fillUserLogin(data.get("email"), data.get("password"));
+        loginPage.login(data.get("email"), data.get("password"));
         homePage.accountButton.click();
-        sleep(2000);
+        loginPage.accountLogoutButton.shouldBe(visible, Duration.ofSeconds(2));
         homePage.logo.click();
         Assert.assertEquals("Construction menu header is incorrect", "Соберите бургер",homePage.constructorMenuHeader.getText());
     }
-
 }

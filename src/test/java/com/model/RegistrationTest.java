@@ -5,38 +5,50 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.sleep;
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest {
+    private String email;
+    private String password;
+    private String name;
+    private String incorrectPass;
+
+    @Before
+    public void beforeTest() {
+        email = RandomStringUtils.randomAlphabetic(10) + "@test.com";
+        password = RandomStringUtils.randomAlphabetic(10);
+        name = RandomStringUtils.randomAlphabetic(10);
+        incorrectPass = RandomStringUtils.randomAlphabetic(5);
+    }
 
     @Test
     public void userCanRegisteredStartAccountButton() {
-        String email = RandomStringUtils.randomAlphabetic(10) + "@test.com";
-        String password = RandomStringUtils.randomAlphabetic(10);
-        String name = RandomStringUtils.randomAlphabetic(10);
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
+        RegistrationPagesElementsSelenide registrationPage = loginPage.register();
         homePage.accountButton.click();
-        homePage.goToRegistrationPageLink.click();
-        homePage.fillUserRegistrationInfo(name, email, password);
-        homePage.registerButton.click();
-        sleep(1000);
-        homePage.fillUserLogin(email, password);
+        loginPage.goToRegistrationPageLink.click();
+        registrationPage.fillUserRegistrationInfo(name, email, password);
+        registrationPage.registerButton.click();
+        loginPage.loginButton.shouldBe(visible, Duration.ofSeconds(2));
+        loginPage.login(email, password);
         homePage.accountButton.click();
-        Assert.assertEquals(homePage.accountUserNameInput.getValue(), name);
+        Assert.assertEquals(loginPage.accountUserNameInput.getValue(), name);
+        loginPage.accountLogoutButton.click();
     }
 
     @Test
     public void userCanNotRegisteredWithWrongPassword() {
-        String email = RandomStringUtils.randomAlphabetic(10) + "@test.com";
-        String password = "wrong";
-        String name = RandomStringUtils.randomAlphabetic(10);
         HomePageElementsSelenide homePage = open("https://stellarburgers.nomoreparties.site/", HomePageElementsSelenide.class);
+        LoginPagesElementsSelenide loginPage = homePage.login();
+        RegistrationPagesElementsSelenide registrationPage = loginPage.register();
         homePage.accountButton.click();
-        homePage.goToRegistrationPageLink.click();
-        homePage.fillUserRegistrationInfo(name, email, password);
-        homePage.registerButton.click();
-        sleep(1000);
-        Assert.assertEquals(homePage.notCorrectPassWarning.getText(), "Некорректный пароль");
+        loginPage.goToRegistrationPageLink.click();
+        registrationPage.fillUserRegistrationInfo(name, email, incorrectPass);
+        registrationPage.registerButton.click();
+        Assert.assertEquals(registrationPage.notCorrectPassWarning.getText(), "Некорректный пароль");
     }
 }
