@@ -31,25 +31,18 @@ public class HomePageElementsSelenide {
     @FindBy(xpath = "//span[@class='text text_type_main-default' and text()='Булки']")
     public SelenideElement bunsTab;
 
-    // Выделение раздела "Булки"
-    @FindBy(xpath = "//div[@class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect' and text()='Булки']")
-    public SelenideElement bunsFocus;
-
     // Таб раздела "Соусы"
     @FindBy(xpath = "//span[@class='text text_type_main-default' and text()='Соусы']")
     public SelenideElement saucesTab;
-
-    // Выделение раздела "Соусы"
-    @FindBy(xpath = "//div[@class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect' and text()='Соусы']")
-    public SelenideElement saucesFocus;
 
     // Таб раздела "Начинки"
     @FindBy(xpath = "//span[@class='text text_type_main-default' and text()='Начинки']")
     public SelenideElement fillingsTab;
 
-    // Выделение раздела "Начинки"
-    @FindBy(xpath = "//div[@class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect' and text()='Начинки']")
-    public SelenideElement fillingsFocus;
+    // Активный таб
+    @FindBy(xpath = "//div[@class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']")
+    public SelenideElement currentTab;
+
 
 
     // Переход на страницу логинации

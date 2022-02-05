@@ -1,6 +1,7 @@
 package com.model;
 
 import com.UserOperations;
+import com.codeborne.selenide.Configuration;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +20,8 @@ public class SwitchToMainPageTest {
 
     @Before
     public void beforeTest() {
+        Configuration.browser = "chrome";
+        Configuration.startMaximized=true;
         userOperations = new UserOperations();
         data = userOperations.register();
     }

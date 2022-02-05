@@ -1,5 +1,6 @@
 package com.model;
 
+import com.codeborne.selenide.Configuration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +19,8 @@ public class RegistrationTest {
 
     @Before
     public void beforeTest() {
+        Configuration.browser = "chrome";
+        Configuration.startMaximized=true;
         email = RandomStringUtils.randomAlphabetic(10) + "@test.com";
         password = RandomStringUtils.randomAlphabetic(10);
         name = RandomStringUtils.randomAlphabetic(10);
